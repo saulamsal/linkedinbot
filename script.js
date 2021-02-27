@@ -51,7 +51,8 @@ let easyApplyButton = document.querySelector('.jobs-s-apply .jobs-apply-button--
                           continueToNextStep();
 
                                            sleep(2000).then(() => {
-                             reviewApplicationFunc();
+
+                                        reviewApplicationFunc();
 
                                    sleep(2000).then(() => {
 
@@ -98,11 +99,17 @@ function continueToNextStep(){
                   nextButton.click();
                   continueToNextStep();
                 }
+                else {
+                    reviewApplicationFunc();
+                }
                  
               });
 
 
 }
+
+
+
 
 function reviewApplicationFunc(){
        sleep(1500).then(() => {
@@ -111,6 +118,8 @@ function reviewApplicationFunc(){
                 if(nextButton) {
                   nextButton.click();
                 }
+                
+ 
               });
 
 }
