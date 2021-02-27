@@ -90,8 +90,8 @@ function sleep (time) {
 function continueToNextStep(){
 
           sleep(1500).then(() => {
-              //check if any option is Selectable
-              checkOptionalFillablePages();
+              //check if any option is Selectable [ignore for now]
+            //   checkOptionalFillablePages();
                 let nextButton = document.querySelector('[aria-label="Continue to next step"]');
 
                 if(nextButton) {
@@ -137,45 +137,4 @@ function checkOptionalFillablePages(){
 
 
 }
-
-
-
-function diversityPageRun() {
-    if(CheckdiversityObject.isDiversityPage) {
-        alert("is Diversity Page");
-    }
-
-}
-
-
-
-let diversityPage; 
-
-    //this obj entries MUST return boolean
-    let CheckdiversityObject = {
-        isDiversityPage: document.querySelector('.t-16.t-bold').innerText == "Diversity", 
-        hasGenderOption: document.querySelector('.jobs-easy-apply-form-section__grouping div label span.t-14').innerText == "Gender",
-
-    }
-
-    let DiversityOptionsText = {
-        Gender: 'Gender',
-        raceAndEthnicity:   'Race and ethnicity',
-        VeteranStatus: 'Veteran Status',
-        DisabilityStatus: 'Disability Status'
-
-    }
-
-
-let allPopUpInputs = document.querySelectorAll('.t-16.t-bold'); 
-for (var i = 0; i < allPopUpInputs.length; ++i) {
-   allPopUpInputs[i].classList.add('cf');
-}
-
-
-
-    let genderOption;
-    let RaceAndEthnicityOption;
-
-
 
