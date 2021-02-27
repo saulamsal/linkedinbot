@@ -162,17 +162,25 @@ setInterval(function() {
     setInterval(function() {
 if (compareCounter <= availableResults) {
 
+    console.log('before loop start compareCounter value: ' + compareCounter);
       let leftContainerULElementSingle = document.querySelector(`.jobs-search-results__list li:nth-child(${compareCounter}) div div`);
-        leftContainerULElementSingle.click();
+        
         //sleep 2 seconds
+           sleep(2000).then(() => {
 
-             if(leftContainerULElementSingle.click() == null){
-             window.scrollTo(0,document.body.scrollHeight);
+             if(!leftContainerULElementSingle){
+                             console.log(`Element with ${compareCounter } compareCounter value isn't clicked`);
+
+             document.querySelector('.jobs-search-results').scrollTo(0,document.body.scrollHeight);
+
             clickLoadMoreButton();
-             compareCounter--;
-             break;
+             return;
         }
-
+        else {
+            leftContainerULElementSingle.click();
+            console.log(`Element with ${compareCounter } compareCounter value is clicked`);
+        }
+  });
 
         sleep(2000).then(() => {
 
