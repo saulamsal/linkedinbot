@@ -15,8 +15,10 @@ function runLoop(currentCount) {
 
     sleep(2000).then(() => {
 
-        let leftContainerULElementSingle = document.querySelector(`.jobs-search-results__list li:nth-child(${currentCount}) div div`);
+        let leftContainerULElementSingle = document.querySelector(`.jobs-search-results__list li:nth-child(${compareCounter}) div div`);
         leftContainerULElementSingle.click();
+
+   
         //sleep 2 seconds
 
         sleep(2000).then(() => {
@@ -153,11 +155,27 @@ setInterval(function() {
 }, 2000);
 
 
-while (compareCounter >= availableResults) {
+
     //Run new application every 20 seconds
 
     
     setInterval(function() {
+if (compareCounter <= availableResults) {
+
+      let leftContainerULElementSingle = document.querySelector(`.jobs-search-results__list li:nth-child(${compareCounter}) div div`);
+        leftContainerULElementSingle.click();
+        //sleep 2 seconds
+
+             if(leftContainerULElementSingle.click() == null){
+             window.scrollTo(0,document.body.scrollHeight);
+            clickLoadMoreButton();
+             compareCounter--;
+             break;
+        }
+
+
+        sleep(2000).then(() => {
+
 
             let easyApplyButton = document.querySelector('.jobs-s-apply .jobs-apply-button--top-card button.jobs-apply-button');
 
@@ -165,10 +183,24 @@ while (compareCounter >= availableResults) {
         runLoop(compareCounter);
             }
            compareCounter++;
+           console.log(compareCounter);
+
+                });
+           }
+   
+
     }, 20000);
+
+
+      
+    setInterval(function() {
+           //click LoadMore Jobs button every 2 minute
+    }, 120000);
+
+function clickLoadMoreButton(){
+    document.querySelector('.jobs-search-two-pane__load-more button').click();
+
 }
-
-
 
 
 function checkOptionalFillablePages() {
