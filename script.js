@@ -90,6 +90,8 @@ function sleep (time) {
 function continueToNextStep(){
 
           sleep(1500).then(() => {
+              //check if any option is Selectable
+              checkOptionalFillablePages();
                 let nextButton = document.querySelector('[aria-label="Continue to next step"]');
 
                 if(nextButton) {
@@ -104,6 +106,7 @@ function continueToNextStep(){
 
 function reviewApplicationFunc(){
        sleep(1500).then(() => {
+           
                 let nextButton = document.querySelector('[aria-label="Review your application"]');
                 if(nextButton) {
                   nextButton.click();
@@ -113,5 +116,66 @@ function reviewApplicationFunc(){
 }
 
 runLoop(1);
+
+
+
+
+function checkOptionalFillablePages(){
+
+    //store as string for all pages functionNames
+    let availableFillablePages = ['diversityPageRun'];
+
+    availableFillablePages.forEach((page) => {
+        //Wait 2 seconds for every fillable check to avoid BOT
+        sleep(1500).then(() => {
+            //envoking a function via string
+            window[page]();
+                      });
+
+    });
+
+
+
+}
+
+
+
+function diversityPageRun() {
+    if(CheckdiversityObject.isDiversityPage) {
+        alert("is Diversity Page");
+    }
+
+}
+
+
+
+let diversityPage; 
+
+    //this obj entries MUST return boolean
+    let CheckdiversityObject = {
+        isDiversityPage: document.querySelector('.t-16.t-bold').innerText == "Diversity", 
+        hasGenderOption: document.querySelector('.jobs-easy-apply-form-section__grouping div label span.t-14').innerText == "Gender",
+
+    }
+
+    let DiversityOptionsText = {
+        Gender: 'Gender',
+        raceAndEthnicity:   'Race and ethnicity',
+        VeteranStatus: 'Veteran Status',
+        DisabilityStatus: 'Disability Status'
+
+    }
+
+
+let allPopUpInputs = document.querySelectorAll('.t-16.t-bold'); 
+for (var i = 0; i < allPopUpInputs.length; ++i) {
+   allPopUpInputs[i].classList.add('cf');
+}
+
+
+
+    let genderOption;
+    let RaceAndEthnicityOption;
+
 
 
