@@ -4,7 +4,9 @@ let leftContainerUL = document.querySelector('.jobs-search-results__list');
 let availableResults = document.querySelector('.jobs-search-results-list__title-heading small').innerText;
 availableResults = parseInt(availableResults.replace(' results', '').replace(',', ''));
 let compareCounter = 1;
+let ApplicationSubmitted = 0;
 
+let isProcessing = false;
 // let currentJobPosting = document.querySelector(`.jobs-search-results__list li:nth-child(${currentUlLiPos}) div div`).getAttribute("data-job-id");
 
 
@@ -12,13 +14,20 @@ let compareCounter = 1;
 // for (let i = 0; i <= availableResults; i++) { 
 function runLoop(currentCount) {
 
+    isProcessing = true;
 
     sleep(2000).then(() => {
 
         let leftContainerULElementSingle = document.querySelector(`.jobs-search-results__list li:nth-child(${compareCounter}) div div`);
-        leftContainerULElementSingle.click();
-
+        
    
+        if(leftContainerULElementSingle) {
+            leftContainerULElementSingle.click();
+        }
+        else {
+            loadMorefix();
+            return;
+        }
         //sleep 2 seconds
 
         sleep(2000).then(() => {
@@ -81,6 +90,7 @@ function runLoop(currentCount) {
     });
 
     // currentUlLiPos++;
+    isProcessing = false;
 }
 
 
@@ -98,6 +108,11 @@ function SubmitApp() {
         }
         sleep(1000).then(() => {
             submitApplication.click();
+            
+            submitApplication.onclick() = function(){
+                ApplicationSubmitted++; 
+            }
+
         });
 
     }
@@ -158,45 +173,69 @@ setInterval(function() {
 
     //Run new application every 20 seconds
 
-    
+    function loadMorefix(){
+           document.querySelector('.jobs-search-results').scrollTo(0,document.body.scrollHeight);
+           sleep(2000).then(() => {
+               clickLoadMoreButton();
+           });
+            
+    }
+
+
     setInterval(function() {
+
+        if(!isProcessing) {
 if (compareCounter <= availableResults) {
 
-    console.log('before loop start compareCounter value: ' + compareCounter);
+
+    let comment = {
+        "Application Submitted": ApplicationSubmitted,
+        "before loop start compareCounter value": compareCounter
+    }
+
+    console.table(comment);
+
       let leftContainerULElementSingle = document.querySelector(`.jobs-search-results__list li:nth-child(${compareCounter}) div div`);
         
         //sleep 2 seconds
            sleep(2000).then(() => {
 
              if(!leftContainerULElementSingle){
-                             console.log(`Element with ${compareCounter } compareCounter value isn't clicked`);
+                 
+                 console.log(`Element with ${compareCounter} compareCounter value isn't clicked`);
 
-             document.querySelector('.jobs-search-results').scrollTo(0,document.body.scrollHeight);
-
-            clickLoadMoreButton();
+          loadMorefix();
              return;
         }
         else {
             leftContainerULElementSingle.click();
             console.log(`Element with ${compareCounter } compareCounter value is clicked`);
+                    runLoop(compareCounter);
+                    compareCounter++;
+
+        //                  sleep(2000).then(() => {
+
+
+        //     let easyApplyButton = document.querySelector('.jobs-s-apply .jobs-apply-button--top-card button.jobs-apply-button');
+
+        //     if (easyApplyButton) {
+        // runLoop(compareCounter);
+        //     }
+           
+        //    compareCounter++;
+
+        //         });
+
+
+
+
         }
   });
 
-        sleep(2000).then(() => {
-
-
-            let easyApplyButton = document.querySelector('.jobs-s-apply .jobs-apply-button--top-card button.jobs-apply-button');
-
-            if (easyApplyButton) {
-        runLoop(compareCounter);
-            }
-           compareCounter++;
-           console.log(compareCounter);
-
-                });
+   
            }
    
-
+        }
     }, 20000);
 
 
