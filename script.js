@@ -5,7 +5,7 @@ let leftContainerUL = document.querySelector('.jobs-search-results__list');
 //get number of size of available results and convert it into Integer
 let availableResults = document.querySelector('.jobs-search-results-list__title-heading small').innerText;
 availableResults = parseInt(availableResults.replace(' results','').replace(',',''));
-
+let compareCounter = 1; 
 
 // let currentJobPosting = document.querySelector(`.jobs-search-results__list li:nth-child(${currentUlLiPos}) div div`).getAttribute("data-job-id");
 
@@ -52,7 +52,7 @@ let easyApplyButton = document.querySelector('.jobs-s-apply .jobs-apply-button--
 
                                            sleep(2000).then(() => {
 
-                                        reviewApplicationFunc();
+                                        // reviewApplicationFunc();
 
                                    sleep(2000).then(() => {
 
@@ -84,6 +84,24 @@ let easyApplyButton = document.querySelector('.jobs-s-apply .jobs-apply-button--
 
 
 
+function SubmitApp() {
+         
+              let submitApplication = document.querySelector('[aria-label="Submit application"]');
+
+                                                  //  let submitApplication = document.querySelector('[aria-label="Submit application"]');
+                                         if(submitApplication){
+                                          
+                    
+                                                  if(document.querySelector('footer .relative label')){document.querySelector('footer .relative label').click();}
+                                            sleep(1000).then(() => {
+submitApplication.click();
+                                                  });
+                                       
+                          }
+                          
+}
+
+
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
@@ -98,10 +116,10 @@ function continueToNextStep(){
                 if(nextButton) {
                   nextButton.click();
                   continueToNextStep();
+
+                  
                 }
-                else {
-                    reviewApplicationFunc();
-                }
+               
                  
               });
 
@@ -111,20 +129,36 @@ function continueToNextStep(){
 
 
 
+
 function reviewApplicationFunc(){
-       sleep(1500).then(() => {
+
+    //    sleep(1500).then(() => {
            
                 let nextButton = document.querySelector('[aria-label="Review your application"]');
                 if(nextButton) {
+                if(document.querySelector('footer .relative label')){document.querySelector('footer .relative label').click();}
                   nextButton.click();
                 }
                 
  
-              });
+            //   });
 
 }
 
-runLoop(1);
+setInterval(function(){ 
+reviewApplicationFunc();
+SubmitApp();
+}, 2000);
+
+
+while(compareCounter >= availableResults) {
+//Run new application every 20 seconds
+setInterval(function(){ 
+runLoop(compareCounter);
+}, 20000);
+}
+
+
 
 
 
